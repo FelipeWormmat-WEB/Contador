@@ -1,15 +1,16 @@
 plugins {
     alias(libs.plugins.androidApplication)
+    alias(libs.plugins.googleServices)
 }
 
 android {
     namespace = "com.example.contador"
-    compileSdk = 34
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "com.example.contador"
-        minSdk = 24
-        targetSdk = 34
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
 
@@ -32,12 +33,16 @@ android {
 }
 
 dependencies {
-
     implementation(libs.appcompat)
     implementation(libs.material)
-    implementation(libs.activity)
     implementation(libs.constraintlayout)
     testImplementation(libs.junit)
-    androidTestImplementation(libs.ext.junit)
-    androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(libs.extjunit)
+    androidTestImplementation(libs.espressoCore)
+    implementation(platform(libs.firebaseBom))
+    implementation(libs.firebaseAuth)
+    implementation(libs.firebaseDatabase)
+    implementation(libs.materialIntro)
+    implementation(libs.fab)
+    implementation(libs.materialCalendarView)
 }

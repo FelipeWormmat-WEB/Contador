@@ -13,7 +13,24 @@
         android:theme="@style/Theme.Contador"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.ReceitaActivity"
+            android:theme="@style/ReceitaTheme"
+            android:exported="false" />
+        <activity
+            android:name=".activity.DespesaActivity"
+            android:theme="@style/DespesaTheme"
+            android:exported="false" />
+        <activity
+            android:name=".activity.PrincipalActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.CadastroActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,9 +38,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".ThirdActivity" />
-        <activity android:name=".FourthActivity" />
     </application>
 
 </manifest>
