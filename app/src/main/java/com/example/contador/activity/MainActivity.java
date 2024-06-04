@@ -1,5 +1,7 @@
 package com.example.contador.activity;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -7,52 +9,16 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.contador.R;
-import com.example.contador.activity.CadastroActivity;
-import com.example.contador.activity.LoginActivity;
 import com.example.contador.config.ConfigFirebase;
 import com.google.firebase.auth.FirebaseAuth;
-import com.heinrichreimersoftware.materialintro.app.IntroActivity;
-import com.heinrichreimersoftware.materialintro.slide.FragmentSlide;
 
-public class MainActivity extends IntroActivity {
+
+public class MainActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_main);
-
-        /* Criação dos slides mostrados quando não há um usuário logado */
-
-        //Desativa os botões de anterior e proximo
-        setButtonBackVisible(false);
-        setButtonNextVisible(false);
-        //Criaçao do slide 1
-        addSlide(new FragmentSlide.Builder()
-                .background(R.color.white)
-                .fragment(R.layout.intro_1)
-                .canGoBackward(false)
-                .build());
-        //Criaçao do slide 2
-        addSlide(new FragmentSlide.Builder()
-                .background(R.color.white)
-                .fragment(R.layout.intro_2)
-                .build());
-        //Criaçao do slide 3
-        addSlide(new FragmentSlide.Builder()
-                .background(R.color.white)
-                .fragment(R.layout.intro_3)
-                .build());
-        //Criaçao do slide 4
-        addSlide(new FragmentSlide.Builder()
-                .background(R.color.white)
-                .fragment(R.layout.intro_4)
-                .build());
-        //Criaçao do ultimo slide, a tela de cadastro / login
-        addSlide(new FragmentSlide.Builder()
-                .background(R.color.white)
-                .fragment(R.layout.intro_cadastro)
-                .canGoForward(false)
-                .build());
     }
 
     @Override

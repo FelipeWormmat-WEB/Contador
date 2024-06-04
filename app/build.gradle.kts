@@ -42,7 +42,5 @@ dependencies {
     implementation(platform(libs.firebaseBom))
     implementation(libs.firebaseAuth)
     implementation(libs.firebaseDatabase)
-    implementation(libs.materialIntro)
     implementation(libs.fab)
-    implementation(libs.materialCalendarView)
 }

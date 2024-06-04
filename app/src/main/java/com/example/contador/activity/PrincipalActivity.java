@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,9 +31,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-import com.prolificinteractive.materialcalendarview.CalendarDay;
-import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
-import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -43,7 +39,6 @@ import java.util.List;
 public class PrincipalActivity extends AppCompatActivity {
     /* Declaração de váriaveis */
     private FloatingActionButton fabReceita, fabDespesa;
-    private MaterialCalendarView materialCalendarView;
     private TextView textSaudacao, textSaldo;
 
     //Método da classe ConfigFirebase utilizado para selecionar a instancia da autenticação e banco de dados
@@ -60,6 +55,7 @@ public class PrincipalActivity extends AppCompatActivity {
     private double receitaTotal = 0.0;
     private double resumoUsuario = 0.0;
     private String mesAnoSelecionado;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,13 +66,11 @@ public class PrincipalActivity extends AppCompatActivity {
         getSupportActionBar().setElevation(0);
         fabReceita = findViewById(R.id.fab_receita);
         fabDespesa = findViewById(R.id.fab_despesa);
-        materialCalendarView = findViewById(R.id.calendarView);
         textSaudacao = findViewById(R.id.text_saudacao);
         textSaldo = findViewById(R.id.text_saldo);
         recyclerView = findViewById(R.id.recyclerView);
 
-        // Métodos para configurar a biblioteca Material Calendar, e definição do swipe no recycler view
-        configCalendar();
+        // Métodos para configurar o swipe no recycler view
         swipe();
 
         // Configuração do clicklistener dos FAB do FAB Menu
@@ -101,8 +95,9 @@ public class PrincipalActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayout.VERTICAL));
         recyclerView.setAdapter(adapterMovimentacao);
     }
+
     /*Método que configura o swipe para o recycler view*/
-    public void swipe(){
+    public void swipe() {
         ItemTouchHelper.Callback itemTouch = new ItemTouchHelper.Callback() {
             @Override
             public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
@@ -123,8 +118,9 @@ public class PrincipalActivity extends AppCompatActivity {
         };
         new ItemTouchHelper(itemTouch).attachToRecyclerView(recyclerView);
     }
+
     /*Método responsável por excluir as movimentações de um usuário, tanto do aplicativo (recyclerview), quanto do banco de dados do firebase*/
-    public void excluirMovimentacao(RecyclerView.ViewHolder viewHolder){
+    public void excluirMovimentacao(RecyclerView.ViewHolder viewHolder) {
         //Configuração do AlertDialog, que pede a confirmação do usuário para excluir ou não uma movimentação do app/firebase
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setTitle("Exclusão");
@@ -167,52 +163,32 @@ public class PrincipalActivity extends AppCompatActivity {
         AlertDialog alert = alertDialog.create();
         alert.show();
     }
+
     /*Método utilizado para atualizar o saldo após um item ser excluido*/
-    public void atualizarSaldo(){
+    public void atualizarSaldo() {
         //Recupera o valor total de uma receita/despesa, e subtrai o valor que foi excluido
-        if(movimentacao.getTipo().equals("r")){
+        if (movimentacao.getTipo().equals("r")) {
             receitaTotal = receitaTotal - movimentacao.getValor();
             userRef.child("receitaTotal").setValue(receitaTotal);
         }
-        if(movimentacao.getTipo().equals("d")){
+        if (movimentacao.getTipo().equals("d")) {
             despesaTotal = despesaTotal - movimentacao.getValor();
             userRef.child("despesaTotal").setValue(receitaTotal);
         }
     }
+
     /*Método utilizado para abrir a activity de adicionar receita utilizado pelo FAB*/
-    public void adicionarReceita(View view){
+    public void adicionarReceita(View view) {
         startActivity(new Intent(this, ReceitaActivity.class));
     }
+
     /*Método utilizado para abrir a activity de adicionar despesa utilizado pelo FAB*/
-    public void adicionarDespesa(View view){
+    public void adicionarDespesa(View view) {
         startActivity(new Intent(this, DespesaActivity.class));
     }
-    /*Método utilizado para configurar o Material Calendar*/
-    public void configCalendar(){
-        //Muda o titulo dos meses para portugues
-        CharSequence meses[] = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
-        materialCalendarView.setTitleMonths(meses);
 
-        //Recupera a data atual e formata para ser utilizado no firebase ex, janeiro de 2001 -> 012001
-        CalendarDay dataAtual = materialCalendarView.getCurrentDate();
-        String mesFormatado = String.format("%02d", dataAtual.getMonth());
-        mesAnoSelecionado = mesFormatado + "" + dataAtual.getYear();
-
-        materialCalendarView.setOnMonthChangedListener(new OnMonthChangedListener() {
-            @Override
-            public void onMonthChanged(MaterialCalendarView widget, CalendarDay date) {
-                //No método onMonthChanged, sempre que o usuario trocar o mes na tela principal, esse método será chamado
-                //Desta forma sempre que o mês for trocado, será recuperado as movimentações daquele mês
-                String mesFormatado = String.format("%02d", date.getMonth());
-                mesAnoSelecionado = mesFormatado + "" + date.getYear();
-                //Remove o eventlistener para que ele seja reiniciado no método recuperarMovimentacoes
-                movimentacaoRef.removeEventListener(valueEventListenerMovimentacoes);
-                recuperarMovimentacoes();
-            }
-        });
-    }
     /*Método responsável por recuperar e atualizar as mensagens na tela inicial*/
-    public void recuperarResumo(){
+    public void recuperarResumo() {
         //Recupera o usuário que está utilizando o app a partir de seu id unico
         String emailUser = auth.getCurrentUser().getEmail();
         String idUser = Base64Custom.codeBase64(emailUser);
@@ -226,7 +202,7 @@ public class PrincipalActivity extends AppCompatActivity {
                 Usuario usuario = snapshot.getValue(Usuario.class);
                 despesaTotal = usuario.getDespesaTotal();
                 receitaTotal = usuario.getReceitaTotal();
-                resumoUsuario = receitaTotal-despesaTotal;
+                resumoUsuario = receitaTotal - despesaTotal;
 
                 //Formatação do texto que será mostrado na tela R$ 0.00
                 DecimalFormat dF = new DecimalFormat("0.##");
@@ -242,8 +218,9 @@ public class PrincipalActivity extends AppCompatActivity {
         });
 
     }
+
     /*Método responsável por recuperar e atualizar as movimentações de cada mês na tela*/
-    public void recuperarMovimentacoes(){
+    public void recuperarMovimentacoes() {
         //Recupera o usuário e seu id unico
         String emailUser = auth.getCurrentUser().getEmail();
         String idUser = Base64Custom.codeBase64(emailUser);
@@ -258,7 +235,7 @@ public class PrincipalActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 //Limpa a lista de movimentações, para que possa ser adicionada novamente do seu respectivo mês e ano
                 movimentacoes.clear();
-                for(DataSnapshot dados : snapshot.getChildren()){
+                for (DataSnapshot dados : snapshot.getChildren()) {
                     //adiciona na lista de movimentacoes, cada movimentacao que existe naquele mês e ano selecionado
                     movimentacao = dados.getValue(Movimentacao.class);
                     movimentacao.setChave(dados.getKey());
@@ -281,11 +258,12 @@ public class PrincipalActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_principal, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
     @Override
     /*Método que configura os itens do menu*/
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         //Caso o item Sair seja selecionado, realiza o logout do usuario
-        if(item.getItemId() == R.id.menuSair){
+        if (item.getItemId() == R.id.menuSair) {
             auth.signOut();
             startActivity(new Intent(this, MainActivity.class));
             finish();
@@ -293,6 +271,7 @@ public class PrincipalActivity extends AppCompatActivity {
         Log.i("onOptionsItemSelected", "Logout efetuado");
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     /*Método onStart é chamado toda vez que essa activity é aberta*/
     protected void onStart() {
@@ -302,6 +281,7 @@ public class PrincipalActivity extends AppCompatActivity {
         recuperarMovimentacoes();
         Log.i("onStart", "Resumo e movimentacoes recuperados");
     }
+
     @Override
     /*Método onStop é chamado sempre que o app ficar em segundo plano*/
     protected void onStop() {
