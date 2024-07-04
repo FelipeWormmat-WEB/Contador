@@ -70,6 +70,8 @@ public class PrincipalActivity extends AppCompatActivity {
         textSaldo = findViewById(R.id.text_saldo);
         recyclerView = findViewById(R.id.recyclerView);
 
+        // Mês exemplo que dei, ou seja julho.
+        mesAnoSelecionado = "2024-07";
         // Métodos para configurar o swipe no recycler view
         swipe();
 

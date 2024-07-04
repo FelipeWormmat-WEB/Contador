@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.example.contador" />
+                  <option name="mobileSdkAppId" value="1:82933881160:android:15e90813afd68e001b7b7d" />
+                  <option name="projectId" value="contadord-c9026" />
+                  <option name="projectNumber" value="82933881160" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

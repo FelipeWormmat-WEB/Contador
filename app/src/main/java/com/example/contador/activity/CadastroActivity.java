@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,7 +26,7 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 public class CadastroActivity extends AppCompatActivity {
     /*Declaração de váriaveis*/
     private EditText editNome, editSenha, editEmail;
-    private Button botao_cadastro;
+    private Button botao_cadastro, botao_login;
     private FirebaseAuth auth;
     Usuario user = new Usuario();
     @Override
@@ -39,6 +40,7 @@ public class CadastroActivity extends AppCompatActivity {
         editEmail = findViewById(R.id.editEmail_cadastro);
         editSenha = findViewById(R.id.editSenha_cadastro);
         botao_cadastro = findViewById(R.id.button_cadastro);
+        botao_login = findViewById(R.id.button_login);
 
         //Listener do botão cadastro
         botao_cadastro.setOnClickListener(new View.OnClickListener() {
@@ -66,6 +68,15 @@ public class CadastroActivity extends AppCompatActivity {
                 }else{
                     Toast.makeText(CadastroActivity.this,"Preencha o nome!", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        botao_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Abre a tela de login
+                startActivity(new Intent(CadastroActivity.this, LoginActivity.class));
+                finish();
             }
         });
     }

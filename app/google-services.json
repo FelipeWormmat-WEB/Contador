@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "82933881160",
+    "project_id": "contadord-c9026",
+    "storage_bucket": "contadord-c9026.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:82933881160:android:15e90813afd68e001b7b7d",
+        "android_client_info": {
+          "package_name": "com.example.contador"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5RDoToPnyiCes-kEB1_fG50txWWgO1bI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
